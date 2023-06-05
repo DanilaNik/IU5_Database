@@ -1,0 +1,97 @@
+--1
+CREATE TABLE comands(
+	ID SERIAL PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Comand_Email TEXT NOT NULL
+);
+
+
+--2
+CREATE TABLE company(
+	ID SERIAL PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Company_Email TEXT NOT NULL,
+	Comand_ID INT NOT NULL,
+	FOREIGN KEY (Comand_ID) REFERENCES comands(ID)
+);
+
+
+--3
+CREATE TABLE developers(
+	ID SERIAL PRIMARY KEY,
+	FIO TEXT NOT NULL,
+	Email TEXT UNIQUE NOT NULL,
+	Phone TEXT UNIQUE NOT NULL,
+	Post TEXT NOT NULL,
+	Working_mode TEXT NOT NULL,
+	Comand_ID INT NOT NULL,
+	FOREIGN KEY (Comand_ID) REFERENCES comands(ID)
+);
+
+
+--4
+CREATE TABLE products(
+	ID SERIAL PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Comand_ID INT NOT NULL,
+	Company_ID INT NOT NULL,
+	FOREIGN KEY (Comand_ID) REFERENCES comands(ID),
+	FOREIGN KEY (Company_ID) REFERENCES company(ID)
+);
+
+
+--5
+CREATE TABLE versions(
+	ID SERIAL PRIMARY KEY,
+	Name TEXT NOT NULL,
+	Version_date DATE NOT NULL,
+	Product_id INT NOT NULL,
+	FOREIGN KEY (Product_ID) REFERENCES products(ID)
+);
+
+
+--6
+CREATE TABLE working(
+	ID SERIAL PRIMARY KEY,
+	Developer_ID INT NOT NULL,
+	Version_ID INT NOT NULL,
+	FOREIGN KEY (Developer_ID) REFERENCES developers(ID),
+	FOREIGN KEY (Version_ID) REFERENCES versions(ID)
+);
+
+
+
+/*
+CREATE TABLE VERSIONS(
+  ID INT PRIMARY KEy GENERATED ALWAYS AS IDENTITY,
+  name1 VARCHAR(20),
+  data1 DATE,
+  product_id INT,
+  CONSTRAINT fk_products
+        FOREIGN KEY(product_id)
+        REFERENCES PRODUCTS(id)
+  );
+  
+ CREATE TABLE PRODUCTS (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name2 VARCHAR(20),
+    comand_id INT, 
+    company_id INT,
+    CONSTRAINT fk_comand
+        FOREIGN KEY(comand_id)
+        REFERENCES COMAND(id),
+    CONSTRAINT fk_company
+        FOREIGN KEY(company_id)
+        REFERENCES COMPANY(id)
+);
+
+CREATE TABLE COMAND (
+  ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  comand_name VARCHAR(20)
+);
+  
+CREATE TABLE COMPANY (
+  ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  company_name VARCHAR(20)
+);
+*/
